@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 Matt Gleason <mattg3398@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Lint
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt, clippy
+      - name: Install Cargo Tools
+        run: cargo install cargo-audit cargo-sort
+      - name: Install Reuse
+        run: sudo apt-get update && sudo apt-get install -y reuse
+      - name: Lint
+        run: ./lint.sh
